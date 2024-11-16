@@ -1,33 +1,16 @@
 "use client";
 
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import {
   Box,
+  Button,
   Container,
   Grid2 as Grid,
-  Paper,
-  Stack,
   Typography,
 } from "@mui/material";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useRouter } from "next/navigation";
 import AddCardForm from "@/components/forms/AddCard.form";
-
-const ITEMS = [
-  {
-    name: "Poly-L-Lactic Acid (Sculptra)",
-    code: "20005753",
-    latestLocation: "คลังยา 1 01-1-1",
-    latestImportedDate: "2024/08/14 22:28",
-    total: "3297359",
-  },
-  {
-    name: "Calcium Hydroxylapatite",
-    code: "20012965",
-    latestLocation: "คลังยา 1 01-1-1",
-    latestImportedDate: "2024/08/14 22:28",
-    total: "3297359",
-  },
-];
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const router = useRouter();
@@ -40,10 +23,36 @@ export default function ProductsPage() {
       }}
     >
       <Grid container>
+        <Grid
+          size={12}
+          px={2}
+          display={
+            window.history?.length && window.history.length > 1
+              ? "flex"
+              : "none"
+          }
+        >
+          <Button
+            onClick={() => {
+              router.back();
+            }}
+            sx={{ minWidth: "initial", width: 36 }}
+          >
+            <ArrowBackOutlinedIcon />
+          </Button>
+        </Grid>
         <Grid size={12} mb={4}>
-          <Typography variant="h6" color="textPrimary" textAlign={"center"}>
-            zkDebit
-          </Typography>
+          <Box display={"flex"} justifyContent={"center"} mt={10}>
+            <Image
+              src="/images/logo.png"
+              alt="privacy-visa-logo"
+              width={148}
+              height={148}
+              style={{
+                objectFit: "contain",
+              }}
+            />
+          </Box>
           <Typography
             variant="body1"
             color="textSecondary"

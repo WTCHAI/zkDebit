@@ -2,6 +2,7 @@
 
 import {
   Box,
+  Button,
   Container,
   Divider,
   Grid2 as Grid,
@@ -11,6 +12,8 @@ import {
 } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import { useRouter } from "next/navigation";
 
 const ITEM = {
   name: "Card1",
@@ -19,6 +22,8 @@ const ITEM = {
 };
 
 export default function ProductsPage() {
+  const router = useRouter();
+
   return (
     <Container
       sx={{
@@ -27,6 +32,24 @@ export default function ProductsPage() {
       }}
     >
       <Grid container>
+        <Grid
+          size={12}
+          px={2}
+          display={
+            window.history?.length && window.history.length > 1
+              ? "flex"
+              : "none"
+          }
+        >
+          <Button
+            onClick={() => {
+              router.back();
+            }}
+            sx={{ minWidth: "initial", width: 36 }}
+          >
+            <ArrowBackOutlinedIcon />
+          </Button>
+        </Grid>
         <Grid size={12}>
           <Box
             sx={{
@@ -84,7 +107,7 @@ export default function ProductsPage() {
             mt={4}
           >
             <WorkOutlineOutlinedIcon
-              sx={{ color: "#00000028", fontSize: 48 }}
+              sx={{ color: "#0000001e", fontSize: 64, mb: 2 }}
             />
             <Typography
               variant="subtitle2"
