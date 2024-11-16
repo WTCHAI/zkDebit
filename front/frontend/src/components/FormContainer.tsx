@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import CryptoJS from 'crypto-js';
-
 import cardSetupPublic from "../../src/assets/card_setup_public.json" ; 
-
 import { generatingProof } from "./geneartingProof"; 
 
 import { IProvider } from "@web3auth/base";
-
 import RPC from "../ethersRPC";
 
 interface IPayload {
@@ -26,27 +22,21 @@ export const TransactionForm = ({ payload , provider }: { payload: IPayload , pr
     publicOutput1: "",
     publicOutput2: "",
   });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData , [name]: value });
-  };
-
-  async function getNounce(){
-    // from getting nounce from bank which is 
-    // unique-nonce-value
-    return "unique-nonce-value"
-  }
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const _nounce =  await getNounce();
-    const payload = {
-        ...formData,
-        nounce : _nounce
-    }
+    const [callData , setCallData] = useState<any>()
     
-    await generatingProof(payload)
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData , [name]: value });
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const payload = {
+            ...formData,
+            nounce : "unique-nonce-value"
+        }
+        const callData =  await generatingProof(payload)
+        setCallData(callData)
     };
 
   useEffect(()=>{
@@ -58,8 +48,22 @@ export const TransactionForm = ({ payload , provider }: { payload: IPayload , pr
         publicOutput1: cardSetupPublic[0],
         publicOutput2: cardSetupPublic[1],
       }) 
-
   },[ payload , cardSetupPublic ])
+
+  useEffect(()=>{
+    if (callData){
+        const verify = async()=>{
+            const response = await RPC.VerifyProof(
+                provider,
+                formData.transactionHash,
+                callData
+            )
+            return response
+        }
+        verify()    
+    }
+  },[callData])
+
 
   return (
     <section>

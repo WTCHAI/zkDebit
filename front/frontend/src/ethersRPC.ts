@@ -143,8 +143,32 @@ const GetNounce = async (
   }
 };
 
+const VerifyProof = async (
+  provider : IProvider,
+  transaction_hashed : string,
+  rawCallData : any
+)=>{
+  try {
+    // "65168609622490722958074698824482263004689769532038453959314985274670332675080"
+    const ethersProvider = new ethers.BrowserProvider(provider);
+    const signer = await ethersProvider.getSigner();
+    const contract = new ethers.Contract("0x62DE9519e5205fdEd52d0A583Aa3785438EB992d", router_abi, signer);
+    console.log(rawCallData) ;
+    const response = await contract.verifyTransaction(
+      transaction_hashed,
+      rawCallData[0],
+      rawCallData[1],
+      rawCallData[2],
+      rawCallData[3]
+    );
+    return response 
+  } catch (error) {
+    console.error("Error sending proof:", error);
+    return error;
+  }
+}
 
-export default {getChainId, getAccounts, getBalance, sendTransaction, signMessage, getWord, setWord , GetNounce };
+export default {getChainId, getAccounts, getBalance, sendTransaction, signMessage, getWord, setWord , GetNounce , VerifyProof};
 
 
 

@@ -1,6 +1,8 @@
 import { groth16 } from 'snarkjs';
 import CryptoJS from 'crypto-js';
 
+import fs from "fs"
+
 interface IForm {
     cardNumber: string,
     transactionHash: string,
@@ -9,9 +11,8 @@ interface IForm {
     amount: number ,
     nounce: string ,
     publicOutput1: string,
-    publicOutput2: string,
+    publicOutput2: string
 }
-
 
 function hashStringToBigInt(input: string ) {
     // Hash the input string using SHA-256
@@ -29,6 +30,7 @@ export async function generatingProof (
 
     const saltHashed = hashStringToBigInt(form.salt);
     const cvcHashed = hashStringToBigInt(form.cvc);
+    // Correct salt : salt1234
     // Correct tx hashed order-001-amount-100
     // Correct unique-nonce-value
     const txHashed = hashStringToBigInt(form.transactionHash);
@@ -43,15 +45,12 @@ export async function generatingProof (
         "transaction": txHashed,
         "nonce": nonceHashed,
     };
-
-    // snarkJS: using the compiled circuit and proving key to generate the proof
+    console.log(input)
     const { proof, publicSignals } = await groth16.fullProve(
         input,
         wasm,
         zkey
     );
-    console.log("Generating proof succedd")
-    // Sending proof conchain validate is proof is valid with tx 
-    
-        
+    const rawCallData  = JSON.parse(`[${await groth16.exportSolidityCallData(proof, publicSignals)}]`)
+    return rawCallData; 
 }
