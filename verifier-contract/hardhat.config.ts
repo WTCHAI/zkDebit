@@ -26,32 +26,12 @@ const config: HardhatUserConfig = {
     hardhat: {
       allowBlocksWithSameTimestamp: true,
     },
-    mainnet: {
-      url: process.env.MAINNET! || "",
-      accounts: [process.env.PRIVATE_KEY!]
-    },
-    goerli: {
-      url: process.env.GOERLI_INFURA! || "",
-      accounts: [process.env.PRIVATE_KEY!]
-    },
     holesky: {
       url: process.env.HOLESKY! || "",
       accounts: [process.env.PRIVATE_KEY!]
     },
     sepolia: {
       url: process.env.SEPOLIA! || "",
-      accounts: [process.env.PRIVATE_KEY!]
-    },
-    opSepolia: {
-      url: process.env.OPSEPOLIA,
-      accounts: [process.env.PRIVATE_KEY!]
-    },
-    abSepolia: {
-      url: process.env.ARBTTESTNET,
-      accounts: [process.env.PRIVATE_KEY!]
-    },
-    bscTestnet: {
-      url: process.env.BSCTESTNET,
       accounts: [process.env.PRIVATE_KEY!]
     }
   },
