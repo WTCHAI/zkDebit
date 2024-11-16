@@ -57,7 +57,7 @@ contract CardVerifierRouter {
 
     walletToTransactionHashed[msg.sender].push(_transactionHashed);
 
-  
+    emit Verify(msg.sender, _transactionHashed, proof);
   }   
 
   function addTransactionHashedInfo(
@@ -69,6 +69,8 @@ contract CardVerifierRouter {
       amount: _amount,
       status: EStatus.Pending
     });
+
+    emit TransactionHashed(msg.sender, _transactionHashed, _amount);
   }
 
   function getNounce() public view returns(uint _nounce){
