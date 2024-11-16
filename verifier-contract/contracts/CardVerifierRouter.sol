@@ -7,7 +7,7 @@ enum EStatus {
   Unknown,    // 0 
   Pending,    // 1 
   Rejected,   // 2 
-  Approved    // 3
+  Approved    // 3 
 }
 
 struct TransactionInfo {
@@ -15,9 +15,12 @@ struct TransactionInfo {
   EStatus status;
 }
 
+/* address _bitkubNext for bitkub chain only */
+
 contract CardVerifierRouter {
   ICardVerifier public immutable verifier;    
   address admin;
+  address admin2;
 
   mapping (string => TransactionInfo) public transactionHashedToDetails;  
   mapping (address => string[]) walletToTransactionHashed; 
@@ -36,6 +39,7 @@ contract CardVerifierRouter {
     uint[2][2] calldata p_b,
     uint[2] calldata p_c,
     uint[2] calldata pub_output
+    ,address _bitkubNext
   ) public {
     require(
       transactionHashedToDetails[_transactionHashed].status != EStatus.Approved, 
@@ -63,8 +67,9 @@ contract CardVerifierRouter {
   function addTransactionHashedInfo(
     string memory _transactionHashed,
     uint _amount
+    ,address _bitkubNext
   ) external {
-    require(msg.sender == admin, 'only admin');
+    // require(msg.sender == admin || msg.sender == admin2, 'only admin');
     transactionHashedToDetails[_transactionHashed] = TransactionInfo({
       amount: _amount,
       status: EStatus.Pending
@@ -75,6 +80,11 @@ contract CardVerifierRouter {
 
   function getNounce() public view returns(uint _nounce){
     _nounce = walletToTransactionHashed[msg.sender].length; 
+  }
+
+  function setAdmin(address _admin2, address _bitkubNext) public {
+    // require(msg.sender == admin, 'only admin');
+    admin2 = _admin2;
   }
 
   function checkTransactionValid (

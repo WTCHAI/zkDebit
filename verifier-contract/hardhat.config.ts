@@ -41,6 +41,10 @@ const config: HardhatUserConfig = {
     flow: {
       url: 'https://testnet.evm.nodes.onflow.org',
       accounts: [process.env.PRIVATE_KEY!],
+    },
+    scroll: {
+      url: 'https://scroll-sepolia-rpc.publicnode.com',
+      accounts: [process.env.PRIVATE_KEY!],
     }
   },
   etherscan: {

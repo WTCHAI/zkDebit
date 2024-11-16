@@ -1,32 +1,29 @@
 import hre, { ethers } from 'hardhat';
-import * as dotenv from "dotenv";
+
+const contractVerify = 'CardVerifier';
+const contractMain = 'CardVerifierRouter';
 
 const deploy = async () => {
-  dotenv.config()
-
-  const CardVerifier = await hre.ethers.getContractFactory("Groth16Verifier");
+  const CardVerifier = await ethers.getContractFactory(contractVerify);
   const cardVerifierContract = await CardVerifier.deploy();
   const cardVerifierAddress = await cardVerifierContract.getAddress();
 
-  const CardVerifierRouter = await hre.ethers.getContractFactory("BankVerifierRouter");
-  const walletPrivateKey = process.env.PRIVATE_KEY;
-  if (!walletPrivateKey) {
-    throw new Error("PRIVATE_KEY is not defined in the environment variables.");
-  }
-  const wallet = new ethers.Wallet(walletPrivateKey , hre.ethers.provider);
-  const cardVerifierRouterContract = await CardVerifierRouter.deploy(wallet.address,cardVerifierAddress);
+  const CardVerifierRouter = await ethers.getContractFactory(contractMain);
+  const cardVerifierRouterContract = await CardVerifierRouter.deploy(cardVerifierAddress);
 
   await cardVerifierRouterContract.deploymentTransaction()?.wait(3);
 
   const cardVerifierRouterAddress = await cardVerifierRouterContract.getAddress();
 
-  console.log(`Groth16Verifier ADDRESS:`, cardVerifierAddress);
-  console.log(`BankVerifierRouter ADDRESS:`, cardVerifierRouterAddress);
+  console.log(`${contractVerify} ADDRESS:`, cardVerifierAddress);
+  console.log(`${contractMain} ADDRESS:`, cardVerifierRouterAddress);
 
   try {
+    console.log(contractVerify)
     await hre.run('verify:verify', {
       address: cardVerifierAddress,
-      constructorArguments: []
+      contract: `contracts/${contractVerify}.sol:${contractVerify}`,
+      constructorArguments: [],
     });
   }
   catch (e) {
@@ -34,9 +31,11 @@ const deploy = async () => {
   }
 
   try {
+    console.log(contractMain)
     await hre.run('verify:verify', {
       address: cardVerifierRouterAddress,
-      constructorArguments: [ wallet.address ,cardVerifierAddress ]
+      contract: `contracts/${contractMain}.sol:${contractMain}`,
+      constructorArguments: [cardVerifierAddress],
     });
   }
   catch (e) {

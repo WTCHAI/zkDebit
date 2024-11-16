@@ -1,0 +1,19 @@
+{
+	"editor.tabSize": 2,
+	"editor.detectIndentation": false,
+	"git.ignoreLimitWarning": true,
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"source.addMissingImports.ts": "explicit"
+	},
+	"files.eol": "\n",
+	"[json]": {
+		"editor.tabSize": 2
+	},
+	"[yaml]": {
+		"editor.tabSize": 2
+	},
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"eslint.workingDirectories": [{ "mode": "auto" }]
+}

@@ -1,5 +1,18 @@
-CardVerifier
-https://holesky.etherscan.io/address/0x95E52C0Ac4af4c8507C8C1c41614642368330b3d
+flow
+https://evm-testnet.flowscan.io/address
+CardVerifier ADDRESS: 0x0Bc5A3a39cc647c60bba3e29cB8ce81419BfAA02
+CardVerifierRouter ADDRESS: 0xa7dA3485c439647aAb232CaD0a5E1C395Eb0278C
 
-CardVerifierRouter owner wallet address : 0x75AD56AbfE994BA63e0967022213899cd7188E02
-https://holesky.etherscan.io/address/0x62DE9519e5205fdEd52d0A583Aa3785438EB992d
+bitkub
+https://testnet.bkcscan.com/address
+CardVerifier ADDRESS: 0xFebd4eDc1d914669A40BE5221852feCdBD066DF5
+CardVerifierRouter ADDRESS: 0x616E01E477D62FC7A54D909F28a9b9BB78915eEc
+
+scroll
+https://sepolia.scrollscan.com/address
+CardVerifier ADDRESS: 0x212b3dD6a4f196488FfdAD0eE8CcBdaFD5c956b5
+CardVerifierRouter ADDRESS: 0x0Bc5A3a39cc647c60bba3e29cB8ce81419BfAA02
+
+sepolia
+CardVerifier ADDRESS: 0xf8ca7028281fBad4E9E3EF636627bE788cDE1730
+CardVerifierRouter ADDRESS: 0x3832f87b02724D953e08906CaF3C73d84Ef08570
