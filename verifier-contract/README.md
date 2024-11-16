@@ -1,5 +1,5 @@
 CardVerifier
-https://holesky.etherscan.io/address/0xa1e60fbc7e5c0bf3d07b18d6caf0b7b4fe84103b
+https://holesky.etherscan.io/address/0x95E52C0Ac4af4c8507C8C1c41614642368330b3d
 
-CardVerifierRouter
-https://holesky.etherscan.io/address/0x4277092B102fC0122f2c19d117927A1Cc142b949
+CardVerifierRouter owner wallet address : 0x75AD56AbfE994BA63e0967022213899cd7188E02
+https://holesky.etherscan.io/address/0x62DE9519e5205fdEd52d0A583Aa3785438EB992d

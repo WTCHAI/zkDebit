@@ -1,87 +1,91 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.28 ;
 
-import { ICardVerifier } from "./ICardVerifier.sol"; 
+// import { ICardVerifier } from "./ICardVerifier.sol" ;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import { ICardVerifier } from "./ICardVerifier.sol" ; 
 
 enum EStatus {
-  Unknown,    // 0 
-  Pending,    // 1 
-  Rejected,   // 2 
-  Approved    // 3
+    Unknown,    // 0 
+    Pending,    // 1 
+    Rejected,   // 2 
+    Approved    // 3
 }
 
-struct TransactionInfo {
-  uint amount; 
-  EStatus status;
+struct ITransactionInfo {
+    uint amount ; 
+    EStatus status ;
 }
 
-contract CardVerifierRouter {
-  ICardVerifier public immutable verifier;    
-  address admin;
+contract BankVerifierRouter is Ownable {
+    ICardVerifier public immutable verifier;    
 
-  mapping (string => TransactionInfo) public transactionHashedToDetails;  
-  mapping (address => string[]) walletToTransactionHashed; 
+    mapping (string => ITransactionInfo) public transactionHashedToDetails;  
+    mapping (address => string[]) walletToTransactionHashed; 
 
-  constructor(
-    ICardVerifier _verifier
-  ) {
-    verifier = _verifier;    
-    admin = msg.sender;
-  }
-
-  function verifyTransaction(
-    string memory _transactionHashed,
-    uint[2] calldata p_a,
-    uint[2][2] calldata p_b,
-    uint[2] calldata p_c,
-    uint[2] calldata pub_output
-  ) public {
-    require(
-      transactionHashedToDetails[_transactionHashed].status != EStatus.Approved, 
-      "Transaction already proof"
-    ); 
-    require(
-      transactionHashedToDetails[_transactionHashed].status != EStatus.Unknown,
-      "Invalid transaction nerver exist"
-    );
-
-    bool proof = verifier.verifyProof(p_a, p_b, p_c, pub_output);
-    if (proof) {
-      transactionHashedToDetails[_transactionHashed].status = EStatus.Approved;
-    }
-    else {
-      transactionHashedToDetails[_transactionHashed].status = EStatus.Rejected; 
+    constructor(
+        address admin,
+        ICardVerifier _verifier
+    ) Ownable(admin) {
+        verifier = _verifier ;    
     }
 
-    walletToTransactionHashed[msg.sender].push(_transactionHashed);
-  }   
+    // Verify proof call to verifiers contract 
+    function verifyTransaction(
+        string memory _transactionHashed,
+        uint[2] calldata p_a,
+        uint[2][2] calldata p_b,
+        uint[2] calldata p_c,
+        uint[2] calldata pub_output
+    ) public returns (bool) {
+        require(transactionHashedToDetails[_transactionHashed].status !=  EStatus.Approved ,"Transaction already proof") ; 
+        require(transactionHashedToDetails[_transactionHashed].status !=  EStatus.Unknown,"Invalid transaction nerver exist") ; 
+        try verifier.verifyProof(p_a, p_b, p_c, pub_output){
+            transactionHashedToDetails[_transactionHashed].status = EStatus.Approved ;
+            walletToTransactionHashed[msg.sender].push(_transactionHashed) ; 
+            return true ;
+        }catch {
+            transactionHashedToDetails[_transactionHashed].status = EStatus.Rejected ;
+            walletToTransactionHashed[msg.sender].push(_transactionHashed) ; 
+            return false ;
+        }
+    }   
 
-  function addTransactionHashedInfo(
-    string memory _transactionHashed,
-    uint _amount
-  ) external {
-    require(msg.sender == admin, 'only admin');
-    transactionHashedToDetails[_transactionHashed] = TransactionInfo({
-      amount: _amount,
-      status: EStatus.Pending
-    });
-  }
+    // Bank intiaize transaction hashedprepare for receive verify proof from user 
+    function addTransactionHashedInfo(
+        string memory _transactionHashed,
+        uint _amount
+    ) external onlyOwner() {
+        transactionHashedToDetails[_transactionHashed] = ITransactionInfo({
+            amount : _amount,
+            status : EStatus.Pending
+        }) ;
+    }
 
-  function getNounce() public view returns(uint _nounce){
-    _nounce = walletToTransactionHashed[msg.sender].length; 
-  }
+    // Getting nounce for each wallet address used to gnerating proof
+    function getNounce() public view returns(uint _nounce){
+        _nounce = walletToTransactionHashed[msg.sender].length ; 
+    }
 
-  function checkTransactionValid (
-    string memory _transactionHashed
-  ) public view returns(EStatus){
-    return transactionHashedToDetails[_transactionHashed].status; 
-  }
+    // Get transaction info by from transactionHashed
+    function getTransactionInfo(string memory transaction_hashed) public view returns( ITransactionInfo memory) { 
+        return transactionHashedToDetails[transaction_hashed] ; 
+    }
 
-  function getTransactionHashed () public view returns( string[] memory){
-    return walletToTransactionHashed[msg.sender]; 
-  }
+    //Getting transactions for each user wallet
+    function getTransactionHashed () public view returns( string[] memory){
+        return walletToTransactionHashed[msg.sender] ; 
+    }
+    function getTransactionHashed ( address walletAddress ) public view returns(string[] memory ){
+        return walletToTransactionHashed[walletAddress] ; 
+    }
 
-  function getTransactionHashed (address walletAddress) public view returns(string[] memory ){
-    return walletToTransactionHashed[walletAddress]; 
-  }
+    function renounceOwnership() public view override onlyOwner {
+        revert("can't renounceOwnership here");
+    }
+
+    function transferOwnership(address newOwner) public view override onlyOwner {
+        revert("transferOwnership is disabled for this contract");
+    }
+
 }
