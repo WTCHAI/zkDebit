@@ -12,3 +12,7 @@ scroll
 https://sepolia.scrollscan.com/address
 CardVerifier ADDRESS: 0x212b3dD6a4f196488FfdAD0eE8CcBdaFD5c956b5
 CardVerifierRouter ADDRESS: 0x0Bc5A3a39cc647c60bba3e29cB8ce81419BfAA02
+
+sepolia
+CardVerifier ADDRESS: 0xf8ca7028281fBad4E9E3EF636627bE788cDE1730
+CardVerifierRouter ADDRESS: 0x3832f87b02724D953e08906CaF3C73d84Ef08570

@@ -38,8 +38,8 @@ contract CardVerifierRouter {
     uint[2] calldata p_a,
     uint[2][2] calldata p_b,
     uint[2] calldata p_c,
-    uint[2] calldata pub_output,
-    address _bitkubNext
+    uint[2] calldata pub_output//,
+    // address _bitkubNext
   ) public {
     require(
       transactionHashedToDetails[_transactionHashed].status != EStatus.Approved, 
@@ -66,8 +66,8 @@ contract CardVerifierRouter {
 
   function addTransactionHashedInfo(
     string memory _transactionHashed,
-    uint _amount,
-    address _bitkubNext
+    uint _amount// ,
+    // address _bitkubNext
   ) external {
     require(msg.sender == admin || msg.sender == admin2, 'only admin');
     transactionHashedToDetails[_transactionHashed] = TransactionInfo({
@@ -82,7 +82,7 @@ contract CardVerifierRouter {
     _nounce = walletToTransactionHashed[msg.sender].length; 
   }
 
-  function setAdmin(address _admin2, address _bitkubNext) public {
+  function setAdmin(address _admin2/*, address _bitkubNext*/) public {
     require(msg.sender == admin, 'only admin');
     admin2 = _admin2;
   }
