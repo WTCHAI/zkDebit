@@ -1,11 +1,14 @@
 flow
+https://evm-testnet.flowscan.io/address
 CardVerifier ADDRESS: 0x0Bc5A3a39cc647c60bba3e29cB8ce81419BfAA02
 CardVerifierRouter ADDRESS: 0xa7dA3485c439647aAb232CaD0a5E1C395Eb0278C
 
 bitkub
+https://testnet.bkcscan.com/address
 CardVerifier ADDRESS: 0xFebd4eDc1d914669A40BE5221852feCdBD066DF5
 CardVerifierRouter ADDRESS: 0x616E01E477D62FC7A54D909F28a9b9BB78915eEc
 
 scroll
+https://sepolia.scrollscan.com/address
 CardVerifier ADDRESS: 0x212b3dD6a4f196488FfdAD0eE8CcBdaFD5c956b5
 CardVerifierRouter ADDRESS: 0x0Bc5A3a39cc647c60bba3e29cB8ce81419BfAA02
