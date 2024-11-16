@@ -26,7 +26,6 @@ const ITEMS = [
 
 export default function ProductsPage() {
   const router = useRouter();
-
   return (
     <Container
       sx={{
