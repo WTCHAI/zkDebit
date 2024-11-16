@@ -1,41 +1,32 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable no-console */
 import "./App.css";
 
-// IMP START - Quick Start
 import { CHAIN_NAMESPACES, IAdapter, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3Auth, Web3AuthOptions } from "@web3auth/modal";
 import { getDefaultExternalAdapters } from "@web3auth/default-evm-adapter";
-// IMP END - Quick Start
+
 import { useEffect, useState } from "react";
+interface IPayload {
+  transaction_hashed : string,
+  amount : number
+}
 
-// IMP START - Blockchain Calls
 import RPC from "./ethersRPC";
-// import RPC from "./viemRPC";
-// import RPC from "./web3RPC";
-// IMP END - Blockchain Calls
 
-// IMP START - Dashboard Registration
+import TransactionForm from "./components/FormContainer";
 const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
-// IMP END - Dashboard Registration
 
-// IMP START - Chain Config
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
   chainId: "0xaa36a7",
   rpcTarget: "https://rpc.ankr.com/eth_sepolia",
-  // Avoid using public rpcTarget in production.
-  // Use services like Infura, Quicknode etc
   displayName: "Ethereum Sepolia Testnet",
   blockExplorerUrl: "https://sepolia.etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
-  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png"
 };
-// IMP END - Chain Config
 
-// IMP START - SDK Initialization
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
 });
@@ -46,14 +37,11 @@ const web3AuthOptions: Web3AuthOptions = {
   privateKeyProvider,
 }
 const web3auth = new Web3Auth(web3AuthOptions);
-// IMP END - SDK Initialization
 
-// IMP START - Configuring External Wallets
 const adapters = await getDefaultExternalAdapters({ options: web3AuthOptions });
 adapters.forEach((adapter: IAdapter<unknown>) => {
   web3auth.configureAdapter(adapter);
 });
-// IMP END - Configuring External Wallets
 
 function App() {
   const [provider, setProvider] = useState<IProvider | null>(null);
@@ -124,8 +112,6 @@ function App() {
     uiConsole("logged out");
   };
 
-  // IMP START - Blockchain Calls
-  // Check the RPC file for the implementation
   const getAccounts = async () => {
     if (!provider) {
       uiConsole("provider not initialized yet");
@@ -171,7 +157,6 @@ function App() {
     const transactionReceipt = await RPC.sendTransaction(provider);
     uiConsole(transactionReceipt);
   };
-  // IMP END - Blockchain Calls
 
   function uiConsole(...args: any[]): void {
     const el = document.querySelector("#console>p");
@@ -239,6 +224,15 @@ function App() {
     </button>
   );
 
+  const OnTransactionSubmit = (payload : any)=>{
+    console.log("Transaction Payload", payload);
+  }
+
+  const data : IPayload = {
+    transaction_hashed : "091235019283490812394890123840981230948",
+    amount : 500
+  }
+
   return (
     <div className="container">
       <h1 className="title">
@@ -253,6 +247,8 @@ function App() {
         <p style={{ whiteSpace: "pre-line" }}></p>
       </div>
 
+      <TransactionForm payload={data}/>
+      
       <footer className="footer">
         <a
           href="https://github.com/Web3Auth/web3auth-pnp-examples/tree/main/web-modal-sdk/quick-starts/react-vite-modal-quick-start"
