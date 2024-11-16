@@ -14,17 +14,20 @@ interface IPayload {
 import RPC from "./ethersRPC";
 
 import TransactionForm from "./components/FormContainer";
+
 const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
 
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
-  chainId: "0xaa36a7",
-  rpcTarget: "https://rpc.ankr.com/eth_sepolia",
+  chainId: "0x4268",
+  rpcTarget: "https://ethereum-holesky-rpc.publicnode.com",
+  // Avoid using public rpcTarget in production.
+  // Use services like Infura, Quicknode etc
   displayName: "Ethereum Sepolia Testnet",
-  blockExplorerUrl: "https://sepolia.etherscan.io",
+  blockExplorerUrl: "https://holesky.etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
-  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png"
+  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
 };
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
@@ -46,7 +49,7 @@ adapters.forEach((adapter: IAdapter<unknown>) => {
 function App() {
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
-
+  console.log(loggedIn)
   useEffect(() => {
     const init = async () => {
       try {
@@ -224,10 +227,6 @@ function App() {
     </button>
   );
 
-  const OnTransactionSubmit = (payload : any)=>{
-    console.log("Transaction Payload", payload);
-  }
-
   const data : IPayload = {
     transaction_hashed : "091235019283490812394890123840981230948",
     amount : 500
@@ -247,7 +246,7 @@ function App() {
         <p style={{ whiteSpace: "pre-line" }}></p>
       </div>
 
-      <TransactionForm payload={data}/>
+      {provider && loggedIn && <TransactionForm payload={data} provider={provider} />}
       
       <footer className="footer">
         <a

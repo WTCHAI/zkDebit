@@ -3,6 +3,8 @@ import type { IProvider } from "@web3auth/base";
 import { ethers } from "ethers";
 import { abi } from "./abi";
 
+import { router_abi }  from "./verify_router_abi";
+
 const getChainId = async (provider: IProvider): Promise<any> => {
   try {
     const ethersProvider = new ethers.BrowserProvider(provider);
@@ -122,4 +124,27 @@ const setWord = async (provider: IProvider, newWord: string): Promise<any> => {
   return receipt.hash;
 }
 
-export default {getChainId, getAccounts, getBalance, sendTransaction, signMessage, getWord, setWord};
+const GetNounce = async (
+  provider: IProvider,
+): Promise<any> => {
+  try {
+    // Initialize ethers provider and signer
+    const ethersProvider = new ethers.BrowserProvider(provider);
+    const signer = await ethersProvider.getSigner();
+
+    const contract = new ethers.Contract("0x4277092B102fC0122f2c19d117927A1Cc142b949", router_abi, signer);
+
+    // Call the contract method for submitting proof
+    const response  = await contract.getNounce();
+    return Number(response) ;
+  } catch (error) {
+    console.error("Error sending proof:", error);
+    throw error;
+  }
+};
+
+
+export default {getChainId, getAccounts, getBalance, sendTransaction, signMessage, getWord, setWord , GetNounce };
+
+
+
