@@ -10,3 +10,5 @@ flow:
 bitkub:
 	npx hardhat run --network bitkub scripts/CardVerifierRouter.ts
 
+scroll:
+	npx hardhat run --network scroll scripts/CardVerifierRouter.ts
