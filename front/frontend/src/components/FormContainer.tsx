@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import cardSetupPublic from ".././../../backend/card_setup_public.json"
+
 interface IPayload {
     transaction_hashed : string,
     amount : number
@@ -28,10 +30,13 @@ export const TransactionForm = ({ payload }: { payload: IPayload }) => {
 };
 
   useEffect(()=>{
+
     setFormData({
       ...formData,
       transactionHash: payload.transaction_hashed,
-      amount: payload.amount
+      amount: payload.amount,
+      publicOutput1: cardSetupPublic[0],
+      publicOutput2: cardSetupPublic[1],
     }) 
   })
 
