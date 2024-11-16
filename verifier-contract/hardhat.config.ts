@@ -33,6 +33,14 @@ const config: HardhatUserConfig = {
     sepolia: {
       url: process.env.SEPOLIA! || "",
       accounts: [process.env.PRIVATE_KEY!]
+    },
+    bitkub: {
+      url: 'https://rpc-testnet.bitkubchain.io',
+      accounts: [process.env.PRIVATE_KEY!]
+    },
+    flow: {
+      url: 'https://testnet.evm.nodes.onflow.org',
+      accounts: [process.env.PRIVATE_KEY!],
     }
   },
   etherscan: {
