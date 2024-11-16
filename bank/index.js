@@ -199,3 +199,5 @@ async function OnGetTransactionInfo(transaction_hashed){
 }
 
 
+
+// snarkjs generatecall verification_public.json verification_proof.json > card_verification.txt");

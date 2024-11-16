@@ -34,4 +34,7 @@ export function compileAndSetupCircuits() {
   
   // Run this script to generating verifier contract 
     runCommand("snarkjs zkey export solidityverifier cardVerification_0000.zkey CardVerifier.sol");
-}
+
+    runCommand("snarkjs generatecall verification_public.json verification_proof.json > generatecall/card_verification.txt");
+
+  }

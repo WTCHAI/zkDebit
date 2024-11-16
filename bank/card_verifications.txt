@@ -1,0 +1,11 @@
+[31;22m[ERROR] [39;1msnarkJS[0m: Error: Invalid Protocol
+    at Object.zkeyExportSolidityCalldata [as action] (/opt/homebrew/lib/node_modules/snarkjs/build/cli.cjs:13127:15)
+    at clProcessor (/opt/homebrew/lib/node_modules/snarkjs/build/cli.cjs:483:37)
+    at Object.<anonymous> (/opt/homebrew/lib/node_modules/snarkjs/build/cli.cjs:12790:1)
+    at Module._compile (node:internal/modules/cjs/loader:1546:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1691:10)
+    at Module.load (node:internal/modules/cjs/loader:1317:32)
+    at Module._load (node:internal/modules/cjs/loader:1127:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:217:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:166:5)
