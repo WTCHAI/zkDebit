@@ -23,7 +23,7 @@ contract CardVerifierRouter {
   mapping (address => string[]) walletToTransactionHashed; 
 
   event Verify(address indexed verifier, string hashed, bool proof);
-  event TransactionHashed(address indexed verifier, string hashed, uint amount);
+  event TransactionHashed(string hashed, uint amount);
 
   constructor(ICardVerifier _verifier) {
     verifier = _verifier;    
@@ -70,7 +70,7 @@ contract CardVerifierRouter {
       status: EStatus.Pending
     });
 
-    emit TransactionHashed(msg.sender, _transactionHashed, _amount);
+    emit TransactionHashed(_transactionHashed, _amount);
   }
 
   function getNounce() public view returns(uint _nounce){

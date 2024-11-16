@@ -54,9 +54,9 @@ const executionGroth16Verifier = async () => {
   // const receipt = await tx.wait();
   // console.log(`Transaction hash: ${receipt.hash}`);
 
-  //const dataAfter = await contract.transactionHashedToDetails(hash)
+  const dataAfter = await contract.transactionHashedToDetails(hash)
 
-  // console.log(dataAfter)
+  console.log(dataAfter)
 };
 
 executionGroth16Verifier().catch((error) => {
