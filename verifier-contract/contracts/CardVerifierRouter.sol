@@ -23,7 +23,7 @@ contract CardVerifierRouter {
   mapping (address => string[]) walletToTransactionHashed; 
 
   event Verify(address indexed verifier, string hashed, bool proof);
-  
+  event TransactionHashed(address indexed verifier, string hashed, uint amount);
 
   constructor(ICardVerifier _verifier) {
     verifier = _verifier;    
@@ -56,6 +56,8 @@ contract CardVerifierRouter {
     }
 
     walletToTransactionHashed[msg.sender].push(_transactionHashed);
+
+  
   }   
 
   function addTransactionHashedInfo(
