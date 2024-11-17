@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 
 import { generatingProof } from '../../../../utils/generatingProof';
@@ -23,8 +24,8 @@ export default async function page({
         publicOutput2: "",
     });
 
-    const payload = JSON.parse((await params).payload)
-
+    // const payload = JSON.parse((await params).payload)
+    const payload = ""
     const [callData , setCallData] = useState<any>()
     
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,8 +47,8 @@ export default async function page({
         if (cardSetupPublic && payload )
         setFormData({
             ...formData,
-            transactionHash: payload.transaction_hashed,
-            amount: payload.amount,
+            transactionHash: "84175951297507830678618146582828340768282764231523957308211132361639741515517",
+            amount: 500 ,
             publicOutput1: cardSetupPublic[0],
             publicOutput2: cardSetupPublic[1],
           }) 

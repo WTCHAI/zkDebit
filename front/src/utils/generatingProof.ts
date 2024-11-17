@@ -18,7 +18,6 @@ function hashStringToBigInt(input: string ) {
     // Convert the hexadecimal hash to BigInt and return it as a string
     return BigInt('0x' + hash).toString();
 }
-import "/assets/CardVerification_0000.zkey"
 
 export async function generatingProof (
     form : IForm 
