@@ -25,8 +25,8 @@ function hashStringToBigInt(input: string ) {
 export async function generatingProof (
     form : IForm 
 ){
-    const zkey = '/assets/CardVerification_0000.zkey'
-    const wasm = "/assets/CardVerification.wasm";
+    const zkey = 'src/assets/CardVerification_0000.zkey'
+    const wasm = "src/assets/CardVerification.wasm";
 
     // const saltHashed = hashStringToBigInt(form.salt);
     // const cvcHashed = hashStringToBigInt(form.cvc);
@@ -40,12 +40,12 @@ export async function generatingProof (
         "cardNumber": form.cardNumber,
         "pi2": form.publicOutput1,
         "pi3": form.publicOutput2,
-        "cvc": 123,
-        "salt": 1234,
+        "cvc": form.cvc,
+        "salt": form.salt,
         "transaction": txHashed,
         "nonce": nonceHashed,
     };
-    console.log(input)
+    console.log("after hashed : ",input)
     const { proof, publicSignals } = await groth16.fullProve(
         input,
         wasm,

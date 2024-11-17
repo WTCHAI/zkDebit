@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import cardSetupPublic from "../../public/assets/card_setup_public.json"
+import cardSetupPublic from "../assets/card_setup_public.json"
 import { generatingProof } from "./geneartingProof"; 
 
 import { IProvider } from "@web3auth/base";
@@ -17,7 +17,7 @@ export const TransactionForm = ({ payload , provider }: { payload: IPayload , pr
     transactionHash: "",
     salt: "",
     cvc: "",
-    amount: 100,
+    amount: 0,
     nounce : "",
     publicOutput1: "",
     publicOutput2: "",
