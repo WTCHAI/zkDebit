@@ -1,0 +1,36 @@
+// src/http.ts
+import * as http from "http";
+import invariant from "invariant";
+async function listen(handler, port) {
+  const server = typeof handler === "function" ? http.createServer(handler) : handler;
+  let app;
+  await new Promise((resolve, reject) => {
+    app = server.listen(port);
+    app.once("listening", resolve);
+    app.once("error", reject);
+  });
+  const address = app?.address();
+  invariant(address && typeof address === "object", "expected address to be an AddressInfo object");
+  return {
+    port: address.port,
+    async close() {
+      await new Promise((resolve, reject) => {
+        if (app) {
+          app.close((err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        } else {
+          resolve();
+        }
+      });
+    }
+  };
+}
+export {
+  listen
+};
+//# sourceMappingURL=http.js.map

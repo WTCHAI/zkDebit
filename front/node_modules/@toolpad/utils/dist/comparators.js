@@ -1,0 +1,23 @@
+// src/comparators.ts
+function defaultComparator(a, b) {
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
+  return 0;
+}
+function alphabeticComparator(a, b) {
+  const { compare } = new Intl.Collator();
+  return compare(a, b);
+}
+function createPropComparator(propName, comparator = defaultComparator) {
+  return (a, b) => comparator(a[propName], b[propName]);
+}
+export {
+  alphabeticComparator,
+  createPropComparator,
+  defaultComparator
+};
+//# sourceMappingURL=comparators.js.map

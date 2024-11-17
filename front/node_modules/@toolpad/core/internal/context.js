@@ -1,0 +1,2 @@
+import * as React from 'react';
+export const DocsContext = /*#__PURE__*/React.createContext(false);
