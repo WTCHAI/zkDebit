@@ -1,3 +1,4 @@
+'use server'
 import { groth16 } from 'snarkjs';
 import CryptoJS from 'crypto-js';
 
@@ -22,11 +23,11 @@ function hashStringToBigInt(input: string ) {
 export async function generatingProof (
     form : IForm 
 ){
-    const zkey = "/assets/CardVerification_0000.zkey";
-    const wasm = "/assets/CardVerification.wasm";
+    const zkey = "public/assets/CardVerification_0000.zkey";
+    const wasm = "public/assets/CardVerification.wasm";
 
-    // const saltHashed = hashStringToBigInt(form.salt);
-    // const cvcHashed = hashStringToBigInt(form.cvc);
+    const saltHashed = hashStringToBigInt(form.salt);
+    const cvcHashed = hashStringToBigInt(form.cvc);
     // Correct salt : salt1234
     // Correct tx hashed order-001-amount-100
     // Correct unique-nonce-value

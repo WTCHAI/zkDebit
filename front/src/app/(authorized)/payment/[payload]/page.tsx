@@ -1,72 +1,68 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+"use client"
+import { useEffect, useState } from 'react'
 
 import { generatingProof } from '../../../../utils/generatingProof';
 import cardSetupPublic  from "../../../../../public/assets/card_setup_public.json"
 
-type Props = {}
-
-export default async function page({
+export default function page({
     params,
   }: {
-    params: Promise<{ payload : string }>
+    params: { payload : string}
   }){
-
+  // State management
     const [formData, setFormData] = useState({
         cardNumber: "",
         transactionHash: "",
         salt: "",
         cvc: "",
         amount: 0,
-        nounce : "",
+        nounce: "",
         publicOutput1: "",
         publicOutput2: "",
     });
+    const [callData, setCallData] = useState<any>();
 
-    // const payload = JSON.parse((await params).payload)
-    const payload = ""
-    const [callData , setCallData] = useState<any>()
-    
+    // Handle input changes
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setFormData({ ...formData , [name]: value });
+        setFormData({ ...formData, [name]: value });
     };
 
+    // Handle form submission
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const payload = {
             ...formData,
-            nounce : "unique-nonce-value"
-        }
-        const callData =  await generatingProof(payload)
-        setCallData(callData)
+            nounce: "unique-nonce-value",
+        };
+        const callData = await generatingProof(payload);
+        setCallData(callData);
     };
-    
-      useEffect(()=>{
-        if (cardSetupPublic && payload )
-        setFormData({
-            ...formData,
-            transactionHash: "84175951297507830678618146582828340768282764231523957308211132361639741515517",
-            amount: 500 ,
-            publicOutput1: cardSetupPublic[0],
-            publicOutput2: cardSetupPublic[1],
-          }) 
-      },[ payload , cardSetupPublic ])
-    
-      useEffect(()=>{
-        if (callData){
-            const verify = async()=>{
-                // Sending request to verify on chain 2 methods depends on providers 
-                // const response = await RPC.VerifyProof(
-                //     provider,
-                //     formData.transactionHash,
-                //     callData
-                // )
-                // console.log( response ) 
-            }
-            verify()    
+
+    // Initialize formData with public outputs
+    useEffect(() => {
+        if (cardSetupPublic) {
+            setFormData((prev) => ({
+                ...prev,
+                transactionHash:
+                    "84175951297507830678618146582828340768282764231523957308211132361639741515517",
+                amount: 500,
+                publicOutput1: cardSetupPublic[0],
+                publicOutput2: cardSetupPublic[1],
+            }));
         }
-      },[callData])
+    }, []);
+
+    // Process callData (if needed)
+    useEffect(() => {
+        if (callData) {
+            const verify = async () => {
+                console.log("Verifying proof with callData:", callData);
+            };
+            verify();
+        }
+    }, [callData]);
+
   
     return (
         <section>
