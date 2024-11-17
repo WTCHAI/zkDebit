@@ -12,7 +12,7 @@ export default function LoginPage() {
         size={12}
         spacing={2}
         alignSelf={"center"}
-        p={{ md: 12, sm: 4, xs: 0 }}
+        p={{ md: 12, sm: 4, xs: 2 }}
       >
         <Grid size={12} mb={4}>
           <Box display={"flex"} justifyContent={"center"}>
